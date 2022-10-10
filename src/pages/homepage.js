@@ -57,8 +57,17 @@ function Homepage(props) {
             console.log("Dosya okuma işlemi tamamlandı.");
         })
     }
-    const continueToConvert=()=>{
-
+    const continueToConvert=(appFile=props.file)=>{
+        return new Promise((resolve,reject)=>{
+            appFile=document.getElementById('content').innerHTML;
+            if(appFile===""){
+                reject("No file selected");
+            }
+            else{
+                resolve(appFile);
+                window.location.href="/convert";
+            }
+        })
     }
     const cancelFile=()=>{
         window.location.reload();
