@@ -3,7 +3,25 @@ import {Container,Row,Col, ProgressBar} from 'react-bootstrap';
 import { useEffect } from 'react';
 
 function Convert(props) {
-
+    useEffect((file=props.file)=>{
+       async function writeFile(){
+            return new Promise((resolve,reject)=>{
+                resolve(file);
+            })
+       }
+       writeFile()
+       .then((res)=>{
+            document.getElementById("convertedFile").innerHTML=res;
+            console.log("res: \n",res);
+         })
+        .catch((err)=>{
+            console.log(err);
+        })
+        .finally(()=>{
+            console.log("Dosya yazma işlemi tamamlandı.");
+        }
+        )
+    },[])
     return (
         <div>
             <Container>
@@ -14,10 +32,9 @@ function Convert(props) {
                 </Row>
                 <Row style={{marginTop:"10vh"}}>
                     <Col>
-                        <ProgressBar animated now={100} />
-                        <div id="file">
-                            aa
-                        </div>
+                        <pre id="convertedFile">
+
+                        </pre>
                     </Col>
                 </Row>
             </Container>
