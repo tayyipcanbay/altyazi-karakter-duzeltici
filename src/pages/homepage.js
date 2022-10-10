@@ -26,9 +26,11 @@ function Homepage(props) {
             reader.readAsText(file);
         })
     }
-    const convertTurkish=(txt)=>{
+    const writeToContentDiv=(txt)=>{
         return new Promise((resolve,reject)=>{
-            props.file=txt;
+            document.getElementById('content').innerHTML=txt;
+            document.getElementById('contentBox').style.display="block";
+            document.getElementById('upload').style.display="none";
             resolve();
         })
     }
@@ -42,16 +44,24 @@ function Homepage(props) {
         .then((res)=>{
             console.log("Dosya okuma başarılı");
             console.log("Okunan dosya içeriği: \n",res);
-
+            return writeToContentDiv(res);
         })
         .then((res)=>{
-            console.log("Dosya içeriği Türkçeleştiriliyor ...");
-            return convertTurkish(res);
+            console.log("Dosya içeriği yazma başarılı");
+            return;
         })
-        .then(console.log("App.js içindeki file dosyası:\n",props.file))
         .catch((err)=>{
             console.log(err);
         })
+        .finally(()=>{
+            console.log("Dosya okuma işlemi tamamlandı.");
+        })
+    }
+    const continueToConvert=()=>{
+
+    }
+    const cancelFile=()=>{
+        window.location.reload();
     }
     
     return (
@@ -62,8 +72,12 @@ function Homepage(props) {
                         <h1>Homepage</h1>
                     </Col>
                 </Row>
-                <Row style={{display:'none'}} id="content">
-
+                <Row style={{display:'none'}} id="contentBox">
+                    <textarea style={{width:'80%',height:'20vw'}} id="content">
+                        
+                    </textarea><br></br>
+                    <Button variant="primary" type="submit" onClick={continueToConvert} style={{width:'10vw', marginTop:'1vw', marginRight:'3vw'}}>Continue</Button>
+                    <Button variant="danger" type="submit" onClick={cancelFile} style={{width:'10vw',marginTop:'1vw'}}>Cancel</Button>
                 </Row>
                 <Row id="upload" style={{marginTop:"10vh"}}>
                     <Col>
